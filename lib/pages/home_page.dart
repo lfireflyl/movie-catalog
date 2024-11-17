@@ -38,8 +38,8 @@ class HomePage extends StatelessWidget {
               itemBuilder: (context, index) {
                 final movie = movies[index];
 
-                double posterWidth = 100.0; 
-                double posterHeight = 150.0; 
+                double posterWidth = 150.0; 
+                double posterHeight = 225.0; 
 
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),

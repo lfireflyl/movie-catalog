@@ -27,8 +27,14 @@ class FilmCardStyle {
   );
 
   static ButtonStyle backButtonStyle = ButtonStyle(
-    backgroundColor: MaterialStateProperty.all(Colors.blue),
+    backgroundColor: MaterialStateProperty.all(Color(0xFF6200EE)),
     padding: MaterialStateProperty.all(EdgeInsets.all(12)),
+  );
+
+  static const TextStyle textButtonStyle = TextStyle(
+    fontSize: 14.0,
+    color: Colors.white,
+    fontWeight: FontWeight.bold,
   );
 
   static const BoxDecoration cardDecoration = BoxDecoration(
