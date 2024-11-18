@@ -5,7 +5,6 @@ import '../style/film_card_style.dart';
 
 class FilmCard extends StatelessWidget {
   final int movieId;
-
   const FilmCard({super.key, required this.movieId});
 
   @override
@@ -94,15 +93,27 @@ class FilmCard extends StatelessWidget {
                                   ),
                                 ],
                               ),
+                               SizedBox(height: 16),
+                                Row(
+                                  children: [
+                                    SizedBox(width: 12),
+                                    Text(
+                                    'Жанры: ${movie.genre
+                                              .map((genre) => genre.name)
+                                              .join(', ')}',
+                                    style: FilmCardStyle.movieDescriptionStyle, 
+                                    ),
+                                  ],
+                                ),
                               SizedBox(height: 16),
                               Row(
                                 children: [
-                                  SizedBox(width: 8),
+                                  SizedBox(width: 12),
                                   Text(
                                   'Production companies: ${movie.productionCompanies
                                                             .map((company) => company.name)
                                                             .join(', ')}',
-                                  style: FilmCardStyle.dateStyle, 
+                                  style: FilmCardStyle.movieDescriptionStyle, 
                                   ),
                                 ],
                               ),
