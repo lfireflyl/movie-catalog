@@ -94,26 +94,29 @@ class FilmCard extends StatelessWidget {
                                 ],
                               ),
                                SizedBox(height: 16),
-                                Row(
-                                  children: [
-                                    SizedBox(width: 12),
-                                    Text(
-                                    'Жанры: ${movie.genre
-                                              .map((genre) => genre.name)
-                                              .join(', ')}',
-                                    style: FilmCardStyle.movieDescriptionStyle, 
-                                    ),
-                                  ],
-                                ),
-                              SizedBox(height: 16),
                               Row(
                                 children: [
                                   SizedBox(width: 12),
-                                  Text(
-                                  'Production companies: ${movie.productionCompanies
-                                                            .map((company) => company.name)
-                                                            .join(', ')}',
-                                  style: FilmCardStyle.movieDescriptionStyle, 
+                                  Flexible(
+                                    child:Text(
+                                    'Жанры: ${movie.genre
+                                                              .map((genre) => genre.name)
+                                                              .join(', ')}',
+                                    style: FilmCardStyle.movieDescriptionStyle, 
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  SizedBox(width: 12),
+                                  Flexible(
+                                    child:Text(
+                                    'Продюсерские кинокомпании: ${movie.productionCompanies
+                                                              .map((company) => company.name)
+                                                              .join(', ')}',
+                                    style: FilmCardStyle.movieDescriptionStyle, 
+                                    ),
                                   ),
                                 ],
                               ),
