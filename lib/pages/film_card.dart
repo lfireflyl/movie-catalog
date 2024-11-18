@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/api.dart';
-import '../models/movie_list.dart';
+import '../models/movie.dart';
 import '../style/film_card_style.dart';
 
 class FilmCard extends StatelessWidget {
@@ -71,6 +71,19 @@ class FilmCard extends StatelessWidget {
                               Row(
                                 children: [
                                   Icon(
+                                    Icons.access_time_outlined,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    '${movie.runtime} минут',
+                                    style: FilmCardStyle.movieDescriptionStyle, 
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 16),
+                              Row(
+                                children: [
+                                  Icon(
                                     Icons.star,
                                     color: Colors.amber,
                                   ),
@@ -78,6 +91,18 @@ class FilmCard extends StatelessWidget {
                                   Text(
                                     movie.voteAverage.toString(),
                                     style: FilmCardStyle.ratingStyle, 
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 16),
+                              Row(
+                                children: [
+                                  SizedBox(width: 8),
+                                  Text(
+                                  'Production companies: ${movie.productionCompanies
+                                                            .map((company) => company.name)
+                                                            .join(', ')}',
+                                  style: FilmCardStyle.dateStyle, 
                                   ),
                                 ],
                               ),

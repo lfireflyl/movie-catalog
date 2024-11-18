@@ -1,4 +1,4 @@
-class Movie {
+class Movies {
   final int id;
   final String title;
   final String overview;
@@ -7,7 +7,7 @@ class Movie {
   final double voteAverage;
   
 
-  Movie({
+  Movies({
     required this.id,
     required this.title,
     required this.overview,
@@ -16,8 +16,8 @@ class Movie {
     required this.voteAverage,
   });
 
-  factory Movie.fromJson(Map<String, dynamic> json) {
-    return Movie(
+  factory Movies.fromJson(Map<String, dynamic> json) {
+    return Movies(
       id: json['id'],
       title: json['title'],
       overview: json['overview'],

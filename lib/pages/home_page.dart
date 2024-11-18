@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/app_drawer.dart';
 import '../services/api.dart';
-import '../models/movie_list.dart';
+import '../models/movies.dart';
 import '../style/movies_list_style.dart';
 import '../pages/film_card.dart';
 import '../style/now_watching_style.dart';
@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
         backgroundColor: AppStyles.primaryColor,  
       ),
       drawer: AppDrawer(),  
-      body: FutureBuilder<List<Movie>>(
+      body: FutureBuilder<List<Movies>>(
         future: futureMovies,  
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
