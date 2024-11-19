@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import '../services/api.dart';
-import '../models/movie_list.dart';
-import '../style/film_card_style.dart'; 
+import '../models/movies.dart';
+import '../style/film_card_style.dart';
 
 class FilmCard extends StatelessWidget {
   final int movieId;
-
   const FilmCard({super.key, required this.movieId});
 
   @override
@@ -13,7 +12,6 @@ class FilmCard extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Подробности фильма'),
-        backgroundColor: FilmCardStyle.primaryColor, 
       ),
       body: FutureBuilder<Movie>(
         future: ApiService().fetchMovieDetails(movieId),
@@ -35,41 +33,94 @@ class FilmCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Image.network(
-                        'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                        width: double.infinity,
-                        height: 300,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    Text(
-                      movie.title,
-                      style: FilmCardStyle.movieTitleStyle, 
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      'Дата выпуска: ${movie.releaseDate}',
-                      style: FilmCardStyle.dateStyle, 
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      movie.overview,
-                      style: FilmCardStyle.movieDescriptionStyle, 
-                    ),
-                    SizedBox(height: 16),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(
-                          Icons.star,
-                          color: Colors.amber,
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.network(
+                            'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                            width: 400,
+                            height: 600,
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                        SizedBox(width: 8),
-                        Text(
-                          movie.voteAverage.toString(),
-                          style: FilmCardStyle.ratingStyle, 
+                        SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                movie.title,
+                                style: FilmCardStyle.movieTitleStyle, 
+                              ),
+                              SizedBox(height: 8),
+                              Text(
+                                'Дата выпуска: ${movie.releaseDate}',
+                                style: FilmCardStyle.dateStyle, 
+                              ),
+                              SizedBox(height: 8),
+                              Text(
+                                movie.overview,
+                                style: FilmCardStyle.movieDescriptionStyle, 
+                                textAlign: TextAlign.justify,
+                              ),
+                              SizedBox(height: 16),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.access_time_outlined,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    '${movie.runtime} минут',
+                                    style: FilmCardStyle.movieDescriptionStyle, 
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 16),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    movie.voteAverage.toString(),
+                                    style: FilmCardStyle.ratingStyle, 
+                                  ),
+                                ],
+                              ),
+                               SizedBox(height: 16),
+                              Row(
+                                children: [
+                                  SizedBox(width: 12),
+                                  Flexible(
+                                    child:Text(
+                                    'Жанры: ${movie.genre
+                                                              .map((genre) => genre.name)
+                                                              .join(', ')}',
+                                    style: FilmCardStyle.movieDescriptionStyle, 
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  SizedBox(width: 12),
+                                  Flexible(
+                                    child:Text(
+                                    'Продюсерские кинокомпании: ${movie.productionCompanies
+                                                              .map((company) => company.name)
+                                                              .join(', ')}',
+                                    style: FilmCardStyle.movieDescriptionStyle, 
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -80,7 +131,9 @@ class FilmCard extends StatelessWidget {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: Text('Назад'),
+                        child: Text('Назад',
+                          style: FilmCardStyle.textButtonStyle,
+                        ),
                       ),
                     ),
                   ],

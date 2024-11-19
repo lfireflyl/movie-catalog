@@ -1,4 +1,3 @@
-// lib/styles/theme.dart
 import 'package:flutter/material.dart';
 
 class AppStyle {
@@ -7,7 +6,7 @@ class AppStyle {
       visualDensity: VisualDensity.adaptivePlatformDensity,
       scaffoldBackgroundColor: Colors.white,
       appBarTheme: AppBarTheme(
-        backgroundColor: Color(0xFF6200EE),
+        backgroundColor: Color.fromARGB(255, 58, 187, 229),
         titleTextStyle: TextStyle(
           color: Colors.white,
           fontSize: 20,
