@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/api.dart';
-import '../models/movie.dart';
+import '../models/movies.dart';
 import '../style/film_card_style.dart';
 
 class FilmCard extends StatelessWidget {

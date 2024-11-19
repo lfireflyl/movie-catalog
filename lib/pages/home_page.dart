@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
         backgroundColor: AppStyles.primaryColor,  
       ),
       drawer: AppDrawer(),  
-      body: FutureBuilder<List<Movies>>(
+      body: FutureBuilder<List<Movie>>(
         future: futureMovies,  
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
