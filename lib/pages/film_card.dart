@@ -12,7 +12,6 @@ class FilmCard extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Подробности фильма'),
-        backgroundColor: FilmCardStyle.primaryColor, 
       ),
       body: FutureBuilder<Movie>(
         future: ApiService().fetchMovieDetails(movieId),

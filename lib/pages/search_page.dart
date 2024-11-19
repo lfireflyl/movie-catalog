@@ -1,10 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../widgets/app_drawer.dart';
+import '../style/film_card_style.dart';
 import '../services/api.dart';
 import '../models/movies.dart';
-import '../style/movies_list_style.dart';
 import '../pages/film_card.dart';
-import '../style/now_watching_style.dart';
+import '../widgets/year_input_widget.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -15,13 +15,65 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   final TextEditingController _searchController = TextEditingController();
-  final List<Movie> _movies = [];
+  final TextEditingController _yearController = TextEditingController();
+  List<Movie> _movies = [];
   bool _isLoading = false;
+  int _currentPage = 1;
+  bool _hasNextPage = true; 
+
+  Future<void> _searchMovies() async {
+    setState(() {
+      _isLoading = true;
+      _hasNextPage = true;
+    });
+
+    try {
+      final movies = await ApiService().searchMovies(
+        _searchController.text,
+        year: _yearController.text.isNotEmpty ? _yearController.text : null,
+        page: _currentPage,
+      );
+
+      setState(() {
+        if (movies.isEmpty) {
+          _hasNextPage = false; 
+        } else {
+          _movies = movies;
+        }
+      });
+    } catch (e) {
+      if (kDebugMode) {
+        print('Ошибка поиска фильмов: $e');
+      }
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _loadNextPage() async {
+    if (_hasNextPage) {
+      setState(() {
+        _currentPage++;
+      });
+      await _searchMovies();
+    }
+  }
+
+  Future<void> _loadPreviousPage() async {
+    if (_currentPage > 1) {
+      setState(() {
+        _currentPage--;
+      });
+      await _searchMovies();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBar(  
         title: Text('Поиск фильмов'),
       ),
       body: Padding(
@@ -35,22 +87,12 @@ class _SearchPageState extends State<SearchPage> {
                 prefixIcon: Icon(Icons.search),
                 border: OutlineInputBorder(),
               ),
-              onSubmitted: (query) async {
-                if (query.isNotEmpty) {
-                  setState(() => _isLoading = true);
-                  try {
-                    final movies = await ApiService().searchMovies(query);
-                    setState(() {
-                      _movies.clear();
-                      _movies.addAll(movies);
-                    });
-                  } catch (e) {
-                    print('Ошибка загрузки фильмов: $e');
-                  } finally {
-                    setState(() => _isLoading = false);
-                  }
-                }
-              },
+              onSubmitted: (_) => _searchMovies(),
+            ),
+            SizedBox(height: 10),
+            YearInputWidget(
+              yearController: _yearController,
+              onYearChanged: (_) => _searchMovies(),
             ),
             SizedBox(height: 10),
             _isLoading
@@ -60,15 +102,8 @@ class _SearchPageState extends State<SearchPage> {
                       itemCount: _movies.length,
                       itemBuilder: (context, index) {
                         final movie = _movies[index];
-                        return ListTile(
-                          leading: movie.posterPath.isNotEmpty
-                              ? Image.network(
-                                  'https://image.tmdb.org/t/p/w92${movie.posterPath}',
-                                  width: 50,
-                                )
-                              : Icon(Icons.image_not_supported, size: 50),
-                          title: Text(movie.title),
-                          subtitle: Text('Дата выхода: ${movie.releaseDate}'),
+
+                        return GestureDetector(
                           onTap: () {
                             Navigator.push(
                               context,
@@ -77,10 +112,70 @@ class _SearchPageState extends State<SearchPage> {
                               ),
                             );
                           },
+                          child: Card(
+                            margin: EdgeInsets.symmetric(vertical: 8.0),
+                            color: Color.fromARGB(227,242,253,255),
+                            child: Row(
+                              children: [
+                                movie.posterPath.isNotEmpty
+                                    ? ClipRRect(
+                                        borderRadius: BorderRadius.circular(8),
+                                        child: Image.network(
+                                          'https://image.tmdb.org/t/p/w200${movie.posterPath}',
+                                          width: 130,
+                                          height: 195,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      )
+                                    : SizedBox(width: 92, height: 138),
+                                SizedBox(width: 16),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        movie.title,
+                                        style: FilmCardStyle.movieTitleStyle,
+                                      ),
+                                      SizedBox(height: 4),
+                                      Text(
+                                        'Дата выхода: ${movie.releaseDate}',
+                                        style: FilmCardStyle.dateStyle,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         );
                       },
                     ),
                   ),
+            if (!_isLoading)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (_currentPage > 1)
+                      ElevatedButton(
+                        style: FilmCardStyle.backButtonStyle,
+                        onPressed: _loadPreviousPage,
+                        child: Text('Назад',
+                        style: FilmCardStyle.textButtonStyle),
+                      ),
+                    SizedBox(width: 16),
+                    if (_hasNextPage)
+                      ElevatedButton(
+                        style: FilmCardStyle.backButtonStyle,
+                        onPressed: _loadNextPage,
+                        child: Text('Вперед',
+                        style: FilmCardStyle.textButtonStyle),
+                      ),
+                  ],
+                ),
+              ),
           ],
         ),
       ),

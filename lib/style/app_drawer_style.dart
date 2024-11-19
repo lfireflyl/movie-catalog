@@ -7,7 +7,7 @@ class DrawerStyles {
   );
 
   static const BoxDecoration drawerHeaderDecoration = BoxDecoration(
-    color: Color(0xFF6200EE),
+    color: Color.fromARGB(255, 58, 187, 229),
   );
 
 }

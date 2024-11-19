@@ -27,8 +27,8 @@ class FilmCardStyle {
   );
 
   static ButtonStyle backButtonStyle = ButtonStyle(
-    backgroundColor: MaterialStateProperty.all(Color(0xFF6200EE)),
-    padding: MaterialStateProperty.all(EdgeInsets.all(12)),
+    backgroundColor: WidgetStateProperty.all(Color.fromARGB(255, 58, 187, 229)),
+    padding: WidgetStateProperty.all(EdgeInsets.all(12)),
   );
 
   static const TextStyle textButtonStyle = TextStyle(
