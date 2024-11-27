@@ -6,9 +6,15 @@ import '../pages/collections_page.dart';
 import '../pages/home_page.dart';
 import '../style/app_drawer_style.dart';
 
-
 class AppDrawer extends StatelessWidget {
-  const AppDrawer({super.key}); 
+  final String? loggedInUser;
+  final String? userRole;
+
+  const AppDrawer({
+    super.key,
+    this.loggedInUser,
+    this.userRole,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +28,8 @@ class AppDrawer extends StatelessWidget {
               'Меню',
               style: DrawerStyles.drawerHeaderStyle,
             ),
-            
           ),
-           ListTile(
+          ListTile(
             leading: Icon(Icons.movie_filter),
             title: Text('Сейчас смотрят'),
             onTap: () {
@@ -67,7 +72,7 @@ class AppDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.account_circle),
             title: Text('Аккаунт'),
-            onTap: () {
+           onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => AccountPage()),
